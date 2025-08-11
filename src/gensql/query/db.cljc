@@ -11,12 +11,13 @@
 (defn read-string
   [s]
   (let [sppl-readers {'gensql.gpm.spe/SPE (dynaload/dynaload 'gensql.gpm.sppl/read-string)
-                      'inferenceql.gpm.spe/SPE (dynaload/dynaload 'gensql.gpm.sppl/read-string) ; for backwards-compatibility
-                      'default (fn [tag value]
+                      'inferenceql.gpm.spe/SPE (dynaload/dynaload 'gensql.gpm.sppl/read-string)} ; for backwards-compatibility
+        readers (merge gpm/readers sppl-readers)]
+    (edn/read-string {:readers readers
+                      :default (fn [tag value]
                                  (println "Found unknown tag:" tag "with value:" value)
                                  {:tag tag :value value})}
-        readers (merge gpm/readers sppl-readers)]
-    (edn/read-string {:readers readers} s)))
+                     s)))
 
 #?(:clj (defn slurp
           [x]
