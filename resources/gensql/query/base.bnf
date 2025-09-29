@@ -100,7 +100,8 @@ order-by-clause ::= #'(?i)ORDER' ws #'(?i)BY' ws identifier (ws (asc | desc))?
 asc  ::= #'(?i)ASC'
 desc ::= #'(?i)DESC'
 
-limit-clause ::= #'(?i)LIMIT' ws int
+limit-clause ::= #'(?i)LIMIT' ws int (ws offset-clause)?
+offset-clause ::= #'(?i)OFFSET' ws int
 
 (* aggregation *)
 
